@@ -1,23 +1,25 @@
 import logo from "../../assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { oswald } from "../fonts";
 
 const NavBar = () => {
   const links = (
     <>
       <li>
-        <a
-          href="#workouts"
-          className="rounded-lg px-4 py-2 font-semibold text-current transition-colors hover:bg-[#C2F800]/10 hover:text-[#C2F800]"
+        <Link
+          href="/"
+          aria-current="page"
+          className="rounded-lg bg-[#C2F800]/10 px-3 py-2 font-bold text-[#C2F800] ring-1 ring-inset ring-[#C2F800]/25 transition-colors hover:bg-[#C2F800]/15"
         >
-          Workouts
-        </a>
+          Workout
+        </Link>
       </li>
 
       <li>
         <a
           href="#plan"
-          className="rounded-lg px-4 py-2 font-semibold text-current transition-colors hover:bg-[#C2F800]/10 hover:text-[#C2F800]"
+          className="rounded-lg px-3 py-2 font-semibold text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
         >
           My Plan
         </a>
@@ -27,19 +29,19 @@ const NavBar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0a0a0a]/95 text-white backdrop-blur-xl">
-      <div className="navbar mx-auto min-h-[76px] max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="navbar-start">
+      <div className="navbar relative mx-auto min-h-[76px] max-w-7xl px-3 sm:px-6 lg:px-8">
+        <div className="navbar-start w-auto min-w-0 flex-1">
           <div className="dropdown dropdown-start lg:hidden">
             <div
               tabIndex={0}
               role="button"
               aria-label="Open navigation menu"
-              className="btn btn-circle mr-3 border-0 bg-[#C2F800]/15 text-[#C2F800] shadow-none hover:bg-[#C2F800] hover:text-black"
+              className="btn btn-circle mr-1.5 h-9 w-9 min-h-0 border-0 bg-[#C2F800]/15 text-[#C2F800] shadow-none hover:bg-[#C2F800] hover:text-black sm:mr-3 sm:h-10 sm:w-10"
             >
               <svg
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-4 w-4 sm:h-6 sm:w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -64,35 +66,42 @@ const NavBar = () => {
           <Link
             href="/"
             aria-label="FitLog home"
-            className="flex items-center gap-3"
+            className="flex min-w-0 items-center gap-2 sm:gap-3"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#171912] p-1.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#171912] p-1 sm:h-11 sm:w-11">
               <Image
                 src={logo}
                 alt="FITLOG Logo"
-                width={36}
-                height={36}
+                width={30}
+                height={30}
                 className="object-contain"
               />
             </span>
-            <span className="text-xl font-black tracking-tight text-white">
+            <span
+              className={`${oswald.className} text-lg font-black tracking-tight text-white sm:text-xl`}
+            >
               FIT<span className="text-[#C2F800]">LOG</span>
             </span>
           </Link>
         </div>
 
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center absolute left-1/2 hidden -translate-x-1/2 lg:flex">
           <ul className="menu menu-horizontal gap-1 px-1 text-sm">{links}</ul>
         </div>
 
-        <div className="navbar-end gap-2 sm:gap-3">
-          <button className="hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-300 transition-colors hover:bg-white/10 hover:text-white sm:inline-flex">
-            Saved
-          </button>
+        <div className="navbar-end w-auto shrink-0 gap-1.5 sm:gap-2">
+          <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-[#C2F800] px-2 text-[11px] font-extrabold text-[#10110B] shadow-[0_4px_14px_rgba(194,248,0,0.16)] sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
+            <span>Plan</span>
+            <span className="grid h-4 min-w-4 place-items-center rounded-full bg-black/10 px-1 text-[10px] leading-none sm:h-5 sm:min-w-5 sm:text-xs">
+              0
+            </span>
+          </span>
 
-          <button className="rounded-xl bg-[#C2F800] px-4 py-2.5 text-sm font-extrabold text-black shadow-[0_5px_18px_rgba(194,248,0,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b8ed00] hover:shadow-[0_8px_22px_rgba(194,248,0,0.32)] active:translate-y-0 sm:px-5">
-            View plan
-          </button>
+          <span className="inline-flex min-h-8 items-center gap-1 rounded-full border border-white/25 px-2 text-[11px] font-semibold text-gray-200 sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
+            <span>Saved</span>
+            <span className="h-4 w-px bg-white/20" aria-hidden="true" />
+            <span className="text-white">0</span>
+          </span>
         </div>
       </div>
     </header>
