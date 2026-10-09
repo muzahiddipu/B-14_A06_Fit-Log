@@ -1,6 +1,7 @@
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/NavBar";
+import { WorkoutStoreProvider } from "./components/WorkoutStore";
 import { inter } from "./fonts";
 
 const geistMono = Geist_Mono({
@@ -20,8 +21,10 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NavBar />
-        {children}
+        <WorkoutStoreProvider>
+          <NavBar />
+          {children}
+        </WorkoutStoreProvider>
       </body>
     </html>
   );

@@ -5,6 +5,14 @@ const nextConfig = {
     agentFeedback: true,
   },
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.magnific.com",
+      },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {

@@ -4,7 +4,10 @@ import { oswald } from "../fonts";
 
 const Banner = () => {
   return (
-    <main className="relative isolate overflow-hidden bg-[linear-gradient(112deg,#0a0a0a_0%,#101407_55%,#0a0a0a_100%)] text-white">
+    <section
+      aria-labelledby="hero-title"
+      className="relative isolate overflow-hidden bg-[linear-gradient(112deg,#0a0a0a_0%,#101407_55%,#0a0a0a_100%)] text-white"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 right-0 w-2/3 opacity-40 [background-image:linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:linear-gradient(to_left,black,transparent)]"
@@ -20,6 +23,7 @@ const Banner = () => {
           </div>
 
           <h1
+            id="hero-title"
             className={`${oswald.className} text-3xl leading-[1.06] font-black sm:text-5xl sm:leading-[1.03] md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl`}
           >
             Train with intent.
@@ -33,8 +37,8 @@ const Banner = () => {
             plan, and watch your work add up.
           </p>
 
-          <button
-            type="button"
+          <a
+            href="#workouts"
             className="group mt-6 inline-flex min-h-11 items-center gap-3 rounded-xl bg-[#C2F800] px-4 py-2.5 text-xs font-black uppercase tracking-wide text-[#10110B] shadow-[0_8px_28px_rgba(194,248,0,0.2)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#d1ff27] hover:shadow-[0_12px_32px_rgba(194,248,0,0.3)] active:translate-y-0 sm:mt-8 sm:gap-5 sm:px-6 sm:py-3 sm:text-sm"
           >
             Browse workouts
@@ -52,7 +56,7 @@ const Banner = () => {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </a>
         </div>
 
         <div className="relative mx-auto flex w-full max-w-[520px] items-center justify-center lg:justify-end">
@@ -64,7 +68,7 @@ const Banner = () => {
           />
         </div>
       </section>
-    </main>
+    </section>
   );
 };
 

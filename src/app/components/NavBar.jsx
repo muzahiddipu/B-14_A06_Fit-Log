@@ -1,28 +1,46 @@
+"use client";
+
 import logo from "../../assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { oswald } from "../fonts";
+import { useWorkoutStore } from "./WorkoutStore";
 
 const NavBar = () => {
+  const pathname = usePathname();
+  const { plannedWorkouts, savedWorkouts } = useWorkoutStore();
+  const isWorkoutActive = pathname === "/" || pathname.startsWith("/workouts/");
+  const isPlanActive = pathname.startsWith("/my-plan");
+
   const links = (
     <>
       <li>
         <Link
           href="/"
-          aria-current="page"
-          className="rounded-lg bg-[#C2F800]/10 px-3 py-2 font-bold text-[#C2F800] ring-1 ring-inset ring-[#C2F800]/25 transition-colors hover:bg-[#C2F800]/15"
+          aria-current={isWorkoutActive ? "page" : undefined}
+          className={`rounded-lg px-3 py-2 font-bold transition-colors ${
+            isWorkoutActive
+              ? "bg-[#C2F800]/10 text-[#C2F800] ring-1 ring-inset ring-[#C2F800]/25 hover:bg-[#C2F800]/15"
+              : "text-gray-300 hover:bg-white/5 hover:text-white"
+          }`}
         >
           Workout
         </Link>
       </li>
 
       <li>
-        <a
-          href="#plan"
-          className="rounded-lg px-3 py-2 font-semibold text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
+        <Link
+          href="/my-plan"
+          aria-current={isPlanActive ? "page" : undefined}
+          className={`rounded-lg px-3 py-2 font-semibold transition-colors ${
+            isPlanActive
+              ? "bg-[#C2F800]/10 text-[#C2F800] ring-1 ring-inset ring-[#C2F800]/25"
+              : "text-gray-300 hover:bg-white/5 hover:text-white"
+          }`}
         >
           My Plan
-        </a>
+        </Link>
       </li>
     </>
   );
@@ -93,14 +111,14 @@ const NavBar = () => {
           <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-[#C2F800] px-2 text-[11px] font-extrabold text-[#10110B] shadow-[0_4px_14px_rgba(194,248,0,0.16)] sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
             <span>Plan</span>
             <span className="grid h-4 min-w-4 place-items-center rounded-full bg-black/10 px-1 text-[10px] leading-none sm:h-5 sm:min-w-5 sm:text-xs">
-              0
+              {plannedWorkouts.length}
             </span>
           </span>
 
           <span className="inline-flex min-h-8 items-center gap-1 rounded-full border border-white/25 px-2 text-[11px] font-semibold text-gray-200 sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
             <span>Saved</span>
             <span className="h-4 w-px bg-white/20" aria-hidden="true" />
-            <span className="text-white">0</span>
+            <span className="text-white">{savedWorkouts.length}</span>
           </span>
         </div>
       </div>
