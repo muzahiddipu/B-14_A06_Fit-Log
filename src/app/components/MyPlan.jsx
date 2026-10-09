@@ -7,6 +7,7 @@ import {
   FiActivity,
   FiArrowUpRight,
   FiCheck,
+  FiChevronDown,
   FiClock,
   FiStar,
   FiX,
@@ -16,6 +17,7 @@ import { useWorkoutStore } from "./WorkoutStore";
 
 const MyPlan = ({ initialTab = "today" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [sortBy, setSortBy] = useState("duration");
   const {
     plannedWorkouts,
     savedWorkouts,
@@ -26,11 +28,19 @@ const MyPlan = ({ initialTab = "today" }) => {
   } = useWorkoutStore();
   const isTodayTab = activeTab === "today";
   const workouts = isTodayTab ? plannedWorkouts : savedWorkouts;
-  const totalMinutes = plannedWorkouts.reduce(
+  const sortedWorkouts = [...workouts].sort((first, second) => {
+    const firstValue = Number(first[sortBy] || 0);
+    const secondValue = Number(second[sortBy] || 0);
+
+    return sortBy === "rating"
+      ? secondValue - firstValue
+      : firstValue - secondValue;
+  });
+  const totalMinutes = workouts.reduce(
     (total, workout) => total + Number(workout.duration || 0),
     0,
   );
-  const totalCalories = plannedWorkouts.reduce(
+  const totalCalories = workouts.reduce(
     (total, workout) => total + Number(workout.caloriesBurned || 0),
     0,
   );
@@ -51,7 +61,9 @@ const MyPlan = ({ initialTab = "today" }) => {
         </header>
 
         <section
-          aria-label="Today's plan summary"
+          aria-label={
+            isTodayTab ? "Today's plan summary" : "Saved workouts summary"
+          }
           className="mt-6 grid grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-[#11130d] sm:grid-cols-3"
         >
           <div className="flex items-center gap-4 border-b border-white/10 px-5 py-4 sm:border-r sm:border-b-0 sm:px-6 sm:py-5">
@@ -61,7 +73,7 @@ const MyPlan = ({ initialTab = "today" }) => {
             <div>
               <p className="text-xs font-medium text-gray-400">Exercises</p>
               <p className="mt-0.5 text-2xl font-extrabold text-[#C2F800]">
-                {plannedWorkouts.length}
+                {workouts.length}
               </p>
             </div>
           </div>
@@ -124,6 +136,30 @@ const MyPlan = ({ initialTab = "today" }) => {
               <span className="ml-2 opacity-75">{savedWorkouts.length}</span>
             </button>
           </div>
+          <div className="flex items-center justify-between gap-3 sm:justify-end">
+            <label
+              htmlFor="workout-sort"
+              className="text-xs font-medium text-gray-400 sm:text-sm"
+            >
+              Sort By
+            </label>
+            <div className="relative">
+              <select
+                id="workout-sort"
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value)}
+                className="min-h-10 min-w-32 appearance-none rounded-xl border border-white/10 bg-[#11130d] py-2 pl-3 pr-9 text-sm font-medium text-white outline-none transition-colors hover:border-[#C2F800]/40 focus:border-[#C2F800] focus:ring-2 focus:ring-[#C2F800]/20"
+              >
+                <option value="duration">Duration</option>
+                <option value="caloriesBurned">Calories</option>
+                <option value="rating">Rating</option>
+              </select>
+              <FiChevronDown
+                aria-hidden="true"
+                className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+              />
+            </div>
+          </div>
         </div>
 
         {!isHydrated ? (
@@ -156,7 +192,7 @@ const MyPlan = ({ initialTab = "today" }) => {
           </div>
         ) : (
           <div className="mt-5 grid grid-cols-1 gap-4">
-            {workouts.map((workout) => (
+            {sortedWorkouts.map((workout) => (
               <article
                 key={workout.id}
                 className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 rounded-2xl border border-white/10 bg-[#11130d] p-3 transition-colors hover:border-[#C2F800]/30 sm:grid-cols-[128px_minmax(0,1fr)_auto] sm:gap-x-5 sm:p-4"
