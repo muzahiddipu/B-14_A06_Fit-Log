@@ -30,6 +30,19 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Deploying to Vercel
+
+FitLog is a Next.js application, so Vercel can detect and build it with the default Next.js settings.
+
+1. Push the project to a Git provider supported by Vercel.
+2. In Vercel, choose **Add New → Project** and import the FitLog repository.
+3. Keep the detected Next.js framework and default build settings (`npm run build`).
+4. Select Node.js 20.x or later and deploy.
+
+The workout library and detail pages use the external API at `https://api.abcz.workers.dev/api/fitlog`. If you have a compatible API endpoint, you can override it by adding `WORKOUTS_API_URL` in **Project Settings → Environment Variables** in Vercel. The API must return the workout data in the format expected by the app. Redeploy after changing environment variables.
+
+Plan and saved workouts are stored in browser `localStorage`. They persist across reloads in the same browser, but are not synced across devices or accounts.
+
 ## Available Scripts
 
 ```bash

@@ -1,4 +1,5 @@
-const API_URL = "https://api.abcz.workers.dev/api/fitlog";
+const API_URL =
+  process.env.WORKOUTS_API_URL || "https://api.abcz.workers.dev/api/fitlog";
 
 export async function getWorkouts() {
   const response = await fetch(API_URL, { next: { revalidate: 3600 } });
