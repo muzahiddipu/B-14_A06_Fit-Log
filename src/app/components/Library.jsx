@@ -1,6 +1,6 @@
-import WorkoutCard from "./WorkoutCard";
 import { getWorkouts } from "../lib/workouts";
 import { oswald } from "../fonts";
+import WorkoutLibrary from "./WorkoutLibrary";
 
 const Library = async () => {
   let workouts = [];
@@ -29,9 +29,6 @@ const Library = async () => {
               Twelve lifts covering every major muscle group.
             </p>
           </div>
-          {!hasError && (
-            <p className="text-sm text-gray-400">{workouts.length} workouts</p>
-          )}
         </div>
 
         {hasError ? (
@@ -43,11 +40,7 @@ const Library = async () => {
             No workouts are available yet.
           </p>
         ) : (
-          <div className=" container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
-            {workouts.map((workout) => (
-              <WorkoutCard key={workout.id} workout={workout} />
-            ))}
-          </div>
+          <WorkoutLibrary workouts={workouts} />
         )}
       </div>
     </section>

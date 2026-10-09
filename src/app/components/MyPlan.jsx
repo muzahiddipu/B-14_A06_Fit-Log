@@ -9,6 +9,7 @@ import {
   FiCheck,
   FiChevronDown,
   FiClock,
+  FiSearch,
   FiStar,
   FiX,
   FiZap,
@@ -18,6 +19,7 @@ import { useWorkoutStore } from "./WorkoutStore";
 const MyPlan = ({ initialTab = "today" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [sortBy, setSortBy] = useState("duration");
+  const [query, setQuery] = useState("");
   const {
     plannedWorkouts,
     savedWorkouts,
@@ -28,7 +30,24 @@ const MyPlan = ({ initialTab = "today" }) => {
   } = useWorkoutStore();
   const isTodayTab = activeTab === "today";
   const workouts = isTodayTab ? plannedWorkouts : savedWorkouts;
-  const sortedWorkouts = [...workouts].sort((first, second) => {
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredWorkouts = workouts.filter((workout) => {
+    const muscleGroups = Array.isArray(workout.muscleGroups)
+      ? workout.muscleGroups
+      : [];
+    const tags = Array.isArray(workout.tags)
+      ? workout.tags
+      : typeof workout.tags === "string"
+        ? [workout.tags]
+        : [];
+    const searchableText = [workout.name, ...muscleGroups, ...tags]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return searchableText.includes(normalizedQuery);
+  });
+  const sortedWorkouts = [...filteredWorkouts].sort((first, second) => {
     const firstValue = Number(first[sortBy] || 0);
     const secondValue = Number(second[sortBy] || 0);
 
@@ -162,6 +181,34 @@ const MyPlan = ({ initialTab = "today" }) => {
           </div>
         </div>
 
+        <label className="relative mt-4 block w-full sm:max-w-sm">
+          <span className="sr-only">
+            Search {isTodayTab ? "today’s plan" : "saved workouts"} by name or
+            muscle group
+          </span>
+          <FiSearch
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+          />
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search by name or muscle group"
+            className="min-h-11 w-full rounded-xl border border-white/10 bg-[#11130d] py-2 pl-10 pr-10 text-sm text-white outline-none transition-colors placeholder:text-gray-500 hover:border-white/20 focus:border-[#C2F800]/60 focus:ring-2 focus:ring-[#C2F800]/15"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label="Clear workout search"
+              className="absolute right-3 top-1/2 grid h-6 w-6 -translate-y-1/2 place-items-center rounded-md text-gray-400 hover:bg-white/10 hover:text-white"
+            >
+              <FiX aria-hidden="true" className="h-4 w-4" />
+            </button>
+          )}
+        </label>
+
         {!isHydrated ? (
           <p
             role="status"
@@ -190,34 +237,38 @@ const MyPlan = ({ initialTab = "today" }) => {
               <FiArrowUpRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
+        ) : filteredWorkouts.length === 0 ? (
+          <p className="mt-5 rounded-2xl border border-white/10 bg-[#11130d] px-5 py-10 text-center text-sm text-gray-400">
+            No workouts match “{query}”. Try a different name or muscle group.
+          </p>
         ) : (
           <div className="mt-5 grid grid-cols-1 gap-4">
             {sortedWorkouts.map((workout) => (
               <article
                 key={workout.id}
-                className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 rounded-2xl border border-white/10 bg-[#11130d] p-3 transition-colors hover:border-[#C2F800]/30 sm:grid-cols-[128px_minmax(0,1fr)_auto] sm:gap-x-5 sm:p-4"
+                className="grid grid-cols-[96px_minmax(0,1fr)] items-center gap-x-3 gap-y-2 rounded-2xl border border-white/10 bg-[#11130d] p-3 transition-colors hover:border-[#C2F800]/30 sm:grid-cols-[144px_minmax(0,1fr)_auto] sm:gap-x-5 sm:p-4"
               >
                 <Image
                   src={workout.image}
                   alt={workout.name}
                   width={256}
                   height={160}
-                  sizes="(max-width: 640px) 88px, 128px"
-                  className="row-span-2 h-20 w-full rounded-xl object-cover sm:row-span-1 sm:h-20"
+                  sizes="(max-width: 640px) 96px, 144px"
+                  className="row-span-2 h-24 w-full rounded-xl object-cover sm:row-span-1 sm:h-24"
                 />
 
                 <div className="min-w-0 self-center">
                   <h2 className="truncate text-sm font-extrabold uppercase tracking-wide text-white sm:text-base">
                     {workout.name}
                   </h2>
-                  <p className="mt-1 truncate text-xs text-gray-400 sm:text-sm">
+                  <p className="mt-0.5 truncate text-xs text-gray-400 sm:text-sm">
                     {workout.equipment}
                     <span aria-hidden="true"> · </span>
                     {workout.sets} sets
                     <span aria-hidden="true"> · </span>
                     {workout.reps} reps
                   </p>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-300 sm:gap-x-4 sm:text-xs">
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-300 sm:gap-x-4 sm:text-xs">
                     <span className="inline-flex items-center gap-1.5">
                       <FiClock
                         aria-hidden="true"
@@ -242,10 +293,10 @@ const MyPlan = ({ initialTab = "today" }) => {
                   </div>
                 </div>
 
-                <div className="col-span-2 flex flex-wrap items-center gap-2 pl-1 sm:col-span-1 sm:justify-end sm:pl-0">
+                <div className="col-span-2 flex flex-wrap items-center gap-2 sm:col-span-1 sm:justify-end">
                   <Link
                     href={`/workouts/${workout.id}`}
-                    className="inline-flex min-h-9 items-center justify-center rounded-lg border border-white/15 px-3 text-xs font-semibold text-gray-200 transition-colors hover:border-[#C2F800]/50 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800]"
+                    className="inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border border-white/15 px-3 text-xs font-semibold text-gray-200 transition-colors hover:border-[#C2F800]/50 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800] sm:min-h-9 sm:flex-none"
                   >
                     View Details
                   </Link>
@@ -253,7 +304,7 @@ const MyPlan = ({ initialTab = "today" }) => {
                     <button
                       type="button"
                       onClick={() => completeWorkout(workout.id)}
-                      className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-[#C2F800] px-3 text-xs font-extrabold text-[#10110B] transition-colors hover:bg-[#d1ff27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800]"
+                      className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-lg bg-[#C2F800] px-3 text-xs font-extrabold text-[#10110B] transition-colors hover:bg-[#d1ff27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800] sm:min-h-9 sm:flex-none"
                     >
                       <FiCheck aria-hidden="true" className="h-4 w-4" />
                       Mark as Done

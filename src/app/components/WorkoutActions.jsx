@@ -13,18 +13,24 @@ const WorkoutActions = ({ workout }) => {
   } = useWorkoutStore();
   const isPlanned = plannedWorkouts.some((item) => item.id === workout.id);
   const isSaved = savedWorkouts.some((item) => item.id === workout.id);
+  const isPlanFull = plannedWorkouts.length >= 5;
 
   return (
     <div className="flex flex-col gap-3 pt-2 sm:flex-row">
       <button
         type="button"
         onClick={() => addToPlan(workout)}
-        disabled={!isHydrated}
+        disabled={!isHydrated || isPlanFull}
         aria-pressed={isPlanned}
+        title={isPlanFull ? "Today’s plan is limited to five workouts" : undefined}
         className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#C2F800] px-5 py-3 text-sm font-bold text-[#10110B] transition-colors hover:bg-[#d1ff27] disabled:cursor-not-allowed disabled:opacity-60"
       >
         <FiPlus aria-hidden="true" className="h-5 w-5" />
-        {isPlanned ? "Added to today’s plan" : "Add to today’s plan"}
+        {isPlanned
+          ? "Added to today’s plan"
+          : isPlanFull
+            ? "Today’s plan is full"
+            : "Add to today’s plan"}
       </button>
 
       <button

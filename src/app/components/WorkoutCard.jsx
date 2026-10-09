@@ -15,11 +15,11 @@ const WorkoutCard = ({ workout }) => (
           width={740}
           height={480}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
       </div>
 
-      <div className="p-4 sm:p-5">
+      <div className="p-3 sm:p-4">
         <div className="flex min-h-7 flex-wrap gap-2">
           {workout.muscleGroups.map((group) => (
             <span
@@ -32,15 +32,15 @@ const WorkoutCard = ({ workout }) => (
         </div>
 
         <h3
-          className={`${oswald.className} mt-4 min-h-12 text-base leading-6 font-extrabold uppercase text-white sm:text-lg`}
+          className={`${oswald.className} mt-3 min-h-10 text-base leading-5 font-extrabold uppercase text-white sm:text-lg`}
         >
           {workout.name}
         </h3>
-        <p className="mt-1 truncate text-sm text-gray-400">
+        <p className="mt-0.5 truncate text-sm text-gray-400">
           {workout.equipment}
         </p>
 
-        <div className="mt-5 grid grid-cols-3 border-t border-white/10 pt-4 text-xs text-gray-300">
+        <div className="mt-4 grid grid-cols-3 border-t border-white/10 pt-3 text-xs text-gray-300">
           <span className="flex items-center gap-1.5">
             <svg
               aria-hidden="true"
