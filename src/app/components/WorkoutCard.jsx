@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { oswald } from "../fonts";
 
 const WorkoutCard = ({ workout }) => (
   <Link
@@ -23,14 +24,16 @@ const WorkoutCard = ({ workout }) => (
           {workout.muscleGroups.map((group) => (
             <span
               key={group}
-              className="rounded-full border border-[#C2F800]/20 bg-[#C2F800]/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#C2F800]"
+              className="rounded-full border border-[#C2F800] bg-[#C2F800] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#10110B]"
             >
               {group}
             </span>
           ))}
         </div>
 
-        <h3 className="mt-4 min-h-12 text-base leading-6 font-extrabold uppercase text-white sm:text-lg">
+        <h3
+          className={`${oswald.className} mt-4 min-h-12 text-base leading-6 font-extrabold uppercase text-white sm:text-lg`}
+        >
           {workout.name}
         </h3>
         <p className="mt-1 truncate text-sm text-gray-400">

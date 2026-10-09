@@ -108,18 +108,26 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-end w-auto shrink-0 gap-1.5 sm:gap-2">
-          <span className="inline-flex min-h-8 items-center gap-1 rounded-full bg-[#C2F800] px-2 text-[11px] font-extrabold text-[#10110B] shadow-[0_4px_14px_rgba(194,248,0,0.16)] sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
+          <Link
+            href="/my-plan?tab=today"
+            aria-label={`Open today's plan (${plannedWorkouts.length} workouts)`}
+            className="inline-flex min-h-8 items-center gap-1 rounded-full bg-[#C2F800] px-2 text-[11px] font-extrabold text-[#10110B] shadow-[0_4px_14px_rgba(194,248,0,0.16)] transition-colors hover:bg-[#d1ff27] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800] sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm"
+          >
             <span>Plan</span>
             <span className="grid h-4 min-w-4 place-items-center rounded-full bg-black/10 px-1 text-[10px] leading-none sm:h-5 sm:min-w-5 sm:text-xs">
               {plannedWorkouts.length}
             </span>
-          </span>
+          </Link>
 
-          <span className="inline-flex min-h-8 items-center gap-1 rounded-full border border-white/25 px-2 text-[11px] font-semibold text-gray-200 sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm">
+          <Link
+            href="/my-plan?tab=saved"
+            aria-label={`Open saved workouts (${savedWorkouts.length})`}
+            className="inline-flex min-h-8 items-center gap-1 rounded-full border border-white/25 px-2 text-[11px] font-semibold text-gray-200 transition-colors hover:border-[#C2F800]/50 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2F800] sm:min-h-9 sm:gap-1.5 sm:px-3 sm:text-sm"
+          >
             <span>Saved</span>
             <span className="h-4 w-px bg-white/20" aria-hidden="true" />
             <span className="text-white">{savedWorkouts.length}</span>
-          </span>
+          </Link>
         </div>
       </div>
     </header>

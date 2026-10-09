@@ -30,8 +30,8 @@ export default async function WorkoutDetailPage({ params }) {
           <span aria-hidden="true">←</span> Back to workouts
         </Link>
 
-        <div className="mt-6 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
-          <div className="relative min-h-72 overflow-hidden rounded-lg border border-white/10 bg-[#151710] sm:min-h-[440px] lg:min-h-[640px]">
+        <div className="mt-6 grid items-start gap-8 lg:grid-cols-[1fr_1fr] lg:gap-10">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-[#151710] sm:aspect-[1.1/1] lg:aspect-[0.78/1]">
             <Image
               src={workout.image}
               alt={workout.name}
@@ -43,38 +43,38 @@ export default async function WorkoutDetailPage({ params }) {
           </div>
 
           <div className="py-1">
-            <div className="flex flex-wrap gap-2">
+            <h1 className="text-3xl leading-tight font-extrabold uppercase sm:text-4xl">
+              {workout.name}
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-400 sm:text-base">
+              {workout.description}
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
               {workout.muscleGroups.map((group) => (
                 <span
                   key={group}
-                  className="rounded-full border border-[#C2F800]/25 bg-[#C2F800]/5 px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#C2F800]"
+                  className="rounded-full border border-[#C2F800] bg-[#C2F800] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#10110B]"
                 >
                   {group}
                 </span>
               ))}
             </div>
 
-            <h1 className="mt-5 text-3xl leading-tight font-extrabold uppercase sm:text-4xl">
-              {workout.name}
-            </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-gray-300">
-              {workout.description}
-            </p>
-
-            <section aria-labelledby="workout-specs" className="mt-8">
-              <h2
-                id="workout-specs"
-                className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400"
-              >
+            <section aria-labelledby="workout-specs" className="mt-5">
+              <h2 id="workout-specs" className="sr-only">
                 Key specs
               </h2>
-              <dl className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-3">
+              <dl className="overflow-hidden rounded-xl border border-white/10 bg-[#171a22]">
                 {specs.map(([label, value]) => (
-                  <div key={label} className="bg-[#11130d] px-4 py-3">
-                    <dt className="text-[10px] font-bold uppercase tracking-wide text-gray-500">
+                  <div
+                    key={label}
+                    className="flex min-h-10 items-center justify-between gap-4 border-b border-white/[0.06] px-4 py-2.5 last:border-b-0"
+                  >
+                    <dt className="text-[10px] font-bold uppercase tracking-wide text-gray-400">
                       {label}
                     </dt>
-                    <dd className="mt-1 text-sm font-semibold text-white">
+                    <dd className="text-right text-xs font-medium text-gray-200 sm:text-sm">
                       {value}
                     </dd>
                   </div>
@@ -85,26 +85,23 @@ export default async function WorkoutDetailPage({ params }) {
             <section aria-labelledby="workout-instructions" className="mt-8">
               <h2
                 id="workout-instructions"
-                className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400"
+                className="text-xs font-extrabold uppercase tracking-wide text-white"
               >
                 Instructions
               </h2>
-              <ol className="mt-4 space-y-3">
+              <ol className="mt-3 list-inside list-decimal space-y-2 text-xs leading-5 text-gray-300 sm:text-sm">
                 {workout.instructions.map((instruction, index) => (
                   <li
                     key={instruction}
-                    className="flex gap-3 text-sm leading-6 text-gray-300"
+                    className="marker:text-gray-400"
                   >
-                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#C2F800]/10 text-xs font-bold text-[#C2F800]">
-                      {index + 1}
-                    </span>
-                    <span>{instruction}</span>
+                    <span className="ml-2">{instruction}</span>
                   </li>
                 ))}
               </ol>
             </section>
 
-            <div className="mt-8 border-t border-white/10 pt-6">
+            <div className="mt-6 border-t border-white/10 pt-5">
               <WorkoutActions workout={workout} />
             </div>
           </div>

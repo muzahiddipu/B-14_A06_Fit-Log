@@ -25,3 +25,25 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
 }
+
+.Toastify__toast.fitlog-toast {
+  border: 1px solid rgb(194 248 0 / 45%);
+  border-radius: 0.75rem;
+  background: linear-gradient(120deg, #c2f800 0%, #a6dc00 48%, #85b900 100%);
+  color: #10110b;
+  font-weight: 700;
+  box-shadow: 0 12px 36px rgb(0 0 0 / 35%);
+}
+
+.Toastify__toast.fitlog-toast .Toastify__toast-icon {
+  color: #10110b;
+}
+
+.Toastify__toast.fitlog-toast .Toastify__close-button {
+  color: #10110b;
+  opacity: 0.75;
+}
+
+.Toastify__progress-bar.fitlog-toast-progress {
+  background: linear-gradient(90deg, #10110b, #334500);
+}

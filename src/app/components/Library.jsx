@@ -1,5 +1,6 @@
 import WorkoutCard from "./WorkoutCard";
 import { getWorkouts } from "../lib/workouts";
+import { oswald } from "../fonts";
 
 const Library = async () => {
   let workouts = [];
@@ -19,7 +20,9 @@ const Library = async () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-3 sm:mb-10 sm:flex-row sm:items-end">
           <div>
-            <h2 className="text-3xl font-extrabold uppercase sm:text-4xl">
+            <h2
+              className={`${oswald.className} text-3xl font-extrabold uppercase sm:text-4xl`}
+            >
               The Library
             </h2>
             <p className="mt-2 text-sm text-gray-400 sm:text-base">
@@ -40,7 +43,7 @@ const Library = async () => {
             No workouts are available yet.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className=" container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
             {workouts.map((workout) => (
               <WorkoutCard key={workout.id} workout={workout} />
             ))}
